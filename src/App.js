@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom"
+import { Home } from "./components/Home";
+import { Panel } from "./components/Panel";
+import { PanelProvider } from "./contexts/PanelContext";
+import {  AssignName } from "./services/getNames";
+
 
 function App() {
+
+  useEffect(() => {
+    localStorage.setItem("username", AssignName())
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+    <Route path="/" element={<Home/>} />
+    <Route
+      path="/panel/:hexValue"
+      element={
+          <PanelProvider>
+            <Panel />
+          </PanelProvider>
+   
+      }
+    />
+  </Routes>
   );
 }
 
